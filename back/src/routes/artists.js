@@ -10,10 +10,11 @@ router.get('/', verifyToken, artistController.getAll);
 router.get('/:id', verifyToken, artistController.getOne);
 
 // --- RUTAS ADMIN (Requieren ser Admin) ---
+
 // Usamos 'image' como el nombre del campo del formulario para la foto
 router.post('/', 
     verifyToken, 
-    verifyAdmin, 
+    verifyAdmin,
     uploadCloudinary.single('image'), 
     artistController.createArtist
 );

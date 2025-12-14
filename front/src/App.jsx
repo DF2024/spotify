@@ -1,40 +1,48 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import LoginPage from "./pages/Login"
-import RegisterPage from "./pages/Register"
-import { useAuthStore } from "./stores/useAuthStore"
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './pages/Login';
+import RegisterPage from './pages/Register';
+import HomePage from './pages/Home';
+import AdminPage from './pages/AdminPanel'; // <--- IMPORTAR
+import MainLayout from './components/Layout/MainLayout';
+import { useAuthStore } from './stores/useAuthStore';
 
-const ProtectedRoute = ({children}) => {
-  const { token } = useAuthStore()
-  if (!token){
-    return <Navigate to="/login" />;
-  }
+// Protección básica: Solo logueados
+const ProtectedRoute = ({ children }) => {
+    const { token } = useAuthStore();
+    return token ? children : <Navigate to="/login" />;
+};
 
-  return children
-}
-
+// Protección Admin: Solo rol 'admin'
+const AdminRoute = ({ children }) => {
+    const { token, isAdmin } = useAuthStore();
+    // Si no hay token o no es admin, fuera
+    if (!token || !isAdmin()) {
+        return <Navigate to="/" />;
+    }
+    return children;
+};
 
 function App() {
-  return (
-      <BrowserRouter>
-          <Routes>
-              {/* Ruta Pública */}
-              <Route path="/login" element={<LoginPage />} />
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<RegisterPage />} />
 
-              {/* Ruta Pública */}
-              <Route path="/register" element={<RegisterPage />} />
-
-              {/* Ruta Protegida (Home) */}
-              <Route path="/api" element={
-                  <ProtectedRoute>
-                      <div className="text-white p-10">
-                          <h1>¡Bienvenido! Has iniciado sesión correctamente.</h1>
-                          {/* Aquí pondremos el Layout completo luego */}
-                      </div>
-                  </ProtectedRoute>
-              } />
-          </Routes>
-      </BrowserRouter>
-  )
+                {/* Rutas con Layout */}
+                <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+                    <Route path="/" element={<HomePage />} />
+                    
+                    {/* RUTA ADMIN */}
+                    <Route path="/admin" element={
+                        <AdminRoute>
+                            <AdminPage />
+                        </AdminRoute>
+                    } />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
-export default App
+export default App;

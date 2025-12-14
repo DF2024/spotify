@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuthStore } from '../stores/useAuthStore'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ const LoginPage = () => {
         e.preventDefault();
         const success = await login(email, password);
         if (success) {
-            navigate('/api'); // Redirigir al Home si sale bien
+            navigate('/'); // Redirigir al Home si sale bien
         } else {
             alert('Error al iniciar sesión');
         }
@@ -54,6 +54,13 @@ const LoginPage = () => {
                     >
                         Iniciar Sesión
                     </button>
+
+                    <p className="mt-8 text-center text-[#b3b3b3] text-sm">
+                        ¿No tienes cuenta?{' '}
+                        <Link to="/register" className="text-white hover:text-spotify-green underline font-medium">
+                            Registrate aquí
+                        </Link>
+                    </p>
                 </form>
             </div>
         </div>

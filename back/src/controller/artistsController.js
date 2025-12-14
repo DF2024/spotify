@@ -28,6 +28,9 @@ const artistController = {
             });
 
         } catch (error) {
+            console.error("❌ ERROR REAL:", JSON.stringify(error, null, 2)); // Para ver el objeto completo
+            console.error("❌ MENSAJE:", error.message);
+            console.error("❌ STACK:", error.stack);
             res.status(500).json({ success: false, error: error.message });
         }
     },

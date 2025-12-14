@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+
 // 1. Configuración de Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -18,8 +19,7 @@ const storage = new CloudinaryStorage({
     params: {
         folder: 'mstream-clone-music', // Nombre de la carpeta en Cloudinary
         resource_type: 'auto', // ¡CRUCIAL! Permite subir audio/video, no solo imágenes
-        allowed_formats: ['mp3', 'wav', 'm4a'], // Formatos permitidos
-        // public_id: (req, file) => 'nombre_personalizado', // Opcional
+    
     },
 });
 
