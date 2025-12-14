@@ -57,7 +57,7 @@ const LoginPage = () => {
 
                     <p className="mt-8 text-center text-[#b3b3b3] text-sm">
                         ¿No tienes cuenta?{' '}
-                        <Link to="/register" className="text-white hover:text-spotify-green underline font-medium">
+                        <Link to="/signup" className="text-white hover:text-spotify-green underline font-medium">
                             Registrate aquí
                         </Link>
                     </p>

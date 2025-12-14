@@ -12,7 +12,7 @@ const formatTime = (seconds) => {
 
 const PlayerBar = () => {
     // 1. Obtener estado global
-    const { currentSong, isPlaying, togglePlay } = usePlayerStore();
+    const { currentSong, isPlaying, togglePlay, nextSong, prevSong } = usePlayerStore();
     
     // 2. Referencia al elemento <audio> real
     const audioRef = useRef(null);
@@ -48,7 +48,7 @@ const PlayerBar = () => {
 
     // HANDLER: Cuando termina la canción
     const handleEnded = () => {
-        togglePlay(); // Poner pause (aquí luego podrías poner 'nextSong')
+        nextSong(); // Poner pause (aquí luego podrías poner 'nextSong')
     };
 
     // HANDLER: Cambiar posición de la canción (Seek)
@@ -93,16 +93,26 @@ const PlayerBar = () => {
             {/* 2. Controles (Centro) */}
             <div className="flex flex-col items-center w-[40%]">
                 <div className="flex items-center gap-6 mb-1">
-                    <button className="text-[#b3b3b3] hover:text-white"><FaStepBackward /></button>
-                    
+                    {/* Retroceder */}
+                    <button 
+                        onClick={prevSong}
+                        className="text-[#b3b3b3] hover:text-white">
+                        <FaStepBackward />
+                    </button>           
+                    {/* Pausa */}
                     <button 
                         onClick={togglePlay}
                         className="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center hover:scale-105 transition"
                     >
                         {isPlaying ? <FaPause size={12} /> : <FaPlay size={12} className="ml-1"/>}
                     </button>
-                    
-                    <button className="text-[#b3b3b3] hover:text-white"><FaStepForward /></button>
+                    {/* Siguente */}
+                    <button 
+                        onClick={nextSong}
+                        className="text-[#b3b3b3] hover:text-white">
+                        <FaStepForward />
+                    </button>
+
                 </div>
 
                 {/* Barra de Progreso */}

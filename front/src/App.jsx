@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import HomePage from './pages/Home';
+import AlbumPage from './pages/AlbumPage';
 import AdminPage from './pages/AdminPanel'; // <--- IMPORTAR
 import MainLayout from './components/Layout/MainLayout';
 import { useAuthStore } from './stores/useAuthStore';
@@ -32,7 +33,8 @@ function App() {
                 {/* Rutas con Layout */}
                 <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
                     <Route path="/" element={<HomePage />} />
-                    
+                    {/* NUEVA RUTA DINÁMICA */}
+                    <Route path="/album/:id" element={<AlbumPage/>}/>
                     {/* RUTA ADMIN */}
                     <Route path="/admin" element={
                         <AdminRoute>

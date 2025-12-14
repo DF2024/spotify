@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { usePlayerStore } from '../stores/usePlayerStore'; // 1. Importar Store
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
     const [songs, setSongs] = useState([]);
@@ -48,9 +49,16 @@ const HomePage = () => {
                         </div>
 
                         <h3 className="font-bold truncate text-white">{song.title}</h3>
+
                         <p className="text-sm text-[#b3b3b3] truncate mt-1">
                             {song.album?.artist?.name || "Artista desconocido"}
                         </p>
+                        
+                        <Link 
+                            to={`/album/${song.album.id}`}
+                            className="text-sm text-[#b3b3b3] truncate mt-1 hover:underline hover:text-white block">
+                            {song.album?.title}
+                        </Link>
                     </div>
                 ))}
             </div>
