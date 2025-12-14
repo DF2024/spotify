@@ -1,78 +1,71 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import api from '../api/axios'
-import { usePlayerStore } from '../stores/usePlayerStore'
-import { FaPlay, FaClock } from "react-icons/fa";
-
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import api from '../api/axios';
+import { usePlayerStore } from '../stores/usePlayerStore';
+import { FaPlay, FaClock, FaPlusCircle } from "react-icons/fa";
+import AddToPlaylistModal from '../components/UI/AddToPlaylistModal';
 
 const AlbumPage = () => {
-    const { id } = useParams()// Obtiene el ID de /album/:id
-    const [album, setAlbum] = useState(null)
-    const { setSong } = usePlayerStore()
-    const { playAlbum } = usePlayerStore()
+    const { id } = useParams();
+    const [album, setAlbum] = useState(null);
+    const [songToAdd, setSongToAdd] = useState(null); // Estado para el modal
+    
+    // Usamos playAlbum para reproducir en contexto
+    const { playAlbum } = usePlayerStore();
 
     useEffect(() => {
         const fetchAlbum = async () => {
             try {
-                const res = await api.get(`/albums/${id}`)
-                setAlbum(res.data.data)
+                const res = await api.get(`/albums/${id}`);
+                setAlbum(res.data.data);
             } catch (error) {
-                console.error("Error:", error)                
+                console.error("Error:", error);
             }
-        }
-        fetchAlbum()
-    }, [id])
+        };
+        fetchAlbum();
+    }, [id]);
 
-    if(!album) return <div className='p-8 text-white'>Cargando...</div>
+    if (!album) return <div className="p-8 text-white">Cargando álbum...</div>;
 
-    // // Función para tocar el album entero (reproducir la primera canción)
-    // const playAlbum = () => {
-    //     if(album.songs.length > 0){
-    //         setSong(album.songs[0])
-    //         // Aquí se agregara la logica de "Cola"
-    //     }
-    // }
-
-    // Helper para formatear tiempo
-
+    // Reproducir todo el álbum desde la canción 0
     const handlePlayAlbum = () => {
         if (album.songs.length > 0) {
-            playAlbum(album.songs, 0); // Empieza desde la primera
+            playAlbum(album.songs, 0);
         }
     };
 
-
     const formatDuration = (seconds) => {
-        const min = Math.floor(seconds / 60)
-        const sec = seconds % 60
-        return `${min}:${sec < 10 ? '0' : ''}${sec}`
-    }
+        const min = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+        return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+    };
 
-    return(
+    return (
         <div className="bg-gradient-to-b from-[#5038a0] to-[#121212] min-h-full text-white pb-10">
             {/* Header del Álbum */}
-            <div className="flex items-end gap-6 p-8">
+            <div className="flex flex-col md:flex-row items-end gap-6 p-8">
                 <img 
-                    src={album.coverImageUrl} 
+                    src={album.coverImageUrl || "https://via.placeholder.com/200"} 
                     alt={album.title} 
-                    className="w-52 h-52 shadow-2xl shadow-black/50"
+                    className="w-52 h-52 shadow-2xl shadow-black/50 object-cover rounded"
                 />
                 <div className="flex flex-col gap-2">
                     <span className="text-sm font-bold uppercase">Álbum</span>
-                    <h1 className="text-7xl font-bold tracking-tighter">{album.title}</h1>
+                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter">{album.title}</h1>
                     <div className="flex items-center gap-2 mt-4 text-sm font-bold">
                         <img 
                             src={album.artist?.imageUrl || "https://via.placeholder.com/50"} 
                             className="w-6 h-6 rounded-full object-cover" 
+                            alt={album.artist?.name}
                         />
-                        <span>{album.artist?.name}</span>
+                        <span className="hover:underline cursor-pointer">{album.artist?.name}</span>
                         <span className="text-white/70">• {album.releaseYear} • {album.songs.length} canciones</span>
                     </div>
                 </div>
             </div>
 
             {/* Controles y Lista */}
-            <div className="bg-black/20 p-6 backdrop-blur-md">
+            <div className="bg-black/20 p-6 backdrop-blur-md min-h-[400px]">
                 {/* Botón Play Grande */}
                 <div className="mb-6">
                     <button 
@@ -85,38 +78,64 @@ const AlbumPage = () => {
 
                 {/* Tabla de Canciones */}
                 <div className="flex flex-col">
-                    {/* Cabecera Tabla */}
-                    <div className="grid grid-cols-[16px_4fr_1fr] px-4 py-2 text-[#b3b3b3] border-b border-white/10 text-sm mb-4">
+                    {/* Cabecera */}
+                    <div className="grid grid-cols-[16px_4fr_1fr_1fr] md:grid-cols-[16px_4fr_1fr] px-4 py-2 text-[#b3b3b3] border-b border-white/10 text-sm mb-4">
                         <span>#</span>
                         <span>Título</span>
+                        {/* La columna del botón + es invisible en el header, pero ocupa espacio en el grid */}
                         <span className="flex justify-end"><FaClock /></span>
                     </div>
 
-                    {/* Lista de Canciones */}
+                    {/* Lista */}
                     {album.songs.map((song, index) => (
                         <div 
                             key={song.id}
-                            onClick={() => playAlbum(album.songs, index)}
-                            className="grid grid-cols-[16px_4fr_1fr] px-4 py-3 hover:bg-white/10 rounded-md cursor-pointer group items-center text-[#b3b3b3] hover:text-white transition"
+                            className="grid grid-cols-[16px_4fr_auto_1fr] px-4 py-3 hover:bg-white/10 rounded-md cursor-pointer group items-center text-[#b3b3b3] hover:text-white transition"
                         >
-                            <span className="group-hover:hidden">{index + 1}</span>
-                            <span className="hidden group-hover:block text-white"><FaPlay size={10}/></span>
-                            
-                            <div className="flex flex-col">
-                                <span className="text-white font-medium text-base">{song.title}</span>
-                                <span className="text-xs group-hover:text-white">{album.artist.name}</span>
+                            {/* Columna 1: Índice o Play */}
+                            <div onClick={() => playAlbum(album.songs, index)}>
+                                <span className="group-hover:hidden font-mono text-sm">{index + 1}</span>
+                                <span className="hidden group-hover:block text-white"><FaPlay size={10}/></span>
                             </div>
                             
-                            <span className="flex justify-end font-mono text-sm">
+                            {/* Columna 2: Info Canción */}
+                            <div className="flex flex-col pr-4" onClick={() => playAlbum(album.songs, index)}>
+                                <span className="text-white font-medium text-base truncate">{song.title}</span>
+                                <span className="text-xs group-hover:text-white">{album.artist.name}</span>
+                            </div>
+
+                            {/* Columna 3: Botón Agregar (+) */}
+                            <div className="flex justify-end pr-4">
+                                <button 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSongToAdd(song);
+                                    }}
+                                    className="text-gray-400 hover:text-white opacity-0 group-hover:opacity-100 transition"
+                                    title="Agregar a playlist"
+                                >
+                                    <FaPlusCircle size={18} />
+                                </button>
+                            </div>
+                            
+                            {/* Columna 4: Duración */}
+                            <div className="flex justify-end font-mono text-sm" onClick={() => playAlbum(album.songs, index)}>
                                 {formatDuration(song.duration)}
-                            </span>
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
+
+            {/* --- MODAL --- */}
+            {songToAdd && (
+                <AddToPlaylistModal 
+                    song={songToAdd} 
+                    onClose={() => setSongToAdd(null)} 
+                />
+            )}
         </div>
-    )
+    );
+};
 
-}
-
-export default AlbumPage
+export default AlbumPage;

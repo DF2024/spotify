@@ -4,6 +4,8 @@ import RegisterPage from './pages/Register';
 import HomePage from './pages/Home';
 import AlbumPage from './pages/AlbumPage';
 import AdminPage from './pages/AdminPanel'; // <--- IMPORTAR
+import PlaylistPage from './pages/PlaylistPage';
+import SearchPage from './pages/SearchPage';
 import MainLayout from './components/Layout/MainLayout';
 import { useAuthStore } from './stores/useAuthStore';
 
@@ -33,8 +35,10 @@ function App() {
                 {/* Rutas con Layout */}
                 <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/search" element={<SearchPage />} />
                     {/* NUEVA RUTA DINÁMICA */}
                     <Route path="/album/:id" element={<AlbumPage/>}/>
+                    <Route path="/playlist/:id" element={<PlaylistPage/>}/>
                     {/* RUTA ADMIN */}
                     <Route path="/admin" element={
                         <AdminRoute>
