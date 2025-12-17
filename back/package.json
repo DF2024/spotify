@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch index.js",
-    "start": "node src/index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "22": "^0.0.0",
