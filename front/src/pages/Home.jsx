@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { usePlayerStore } from '../stores/usePlayerStore'; // 1. Importar Store
+import { FaPlusCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import AddToPlaylistModal from '../components/UI/AddToPlaylistModal';
 
 const HomePage = () => {
     const [songs, setSongs] = useState([]);
     const { setSong } = usePlayerStore(); // 2. Sacar la función setSong
+    const [songToAdd, setSongToAdd] = useState(null)
 
     useEffect(() => {
         const fetchSongs = async () => {
@@ -59,9 +62,28 @@ const HomePage = () => {
                             className="text-sm text-[#b3b3b3] truncate mt-1 hover:underline hover:text-white block">
                             {song.album?.title}
                         </Link>
+
+                        <div className="flex justify-end pr-4">
+                                <button 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSongToAdd(song);
+                                    }}
+                                    className="text-gray-400 hover:text-white opacity-0 group-hover:opacity-100 transition"
+                                    title="Agregar a playlist"
+                                >
+                                    <FaPlusCircle size={18} />
+                                </button>
+                        </div>
                     </div>
                 ))}
             </div>
+            {songToAdd && (
+                <AddToPlaylistModal 
+                    song={songToAdd} 
+                    onClose={() => setSongToAdd(null)} 
+                />
+            )}
         </div>
     );
 };

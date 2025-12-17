@@ -2,24 +2,33 @@ import { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../api/axios';
 import { usePlayerStore } from '../stores/usePlayerStore';
-import { FaPlay, FaClock, FaMusic } from "react-icons/fa";
+import { FaPlay, FaClock, FaMusic, FaTrash } from "react-icons/fa";
+import { useAuthStore } from '../stores/useAuthStore';
+
 
 const PlaylistPage = () => {
     const { id } = useParams();
     const [playlist, setPlaylist] = useState(null);
     const { playAlbum } = usePlayerStore(); // Reusamos playAlbum para reproducir listas
 
+    const { user } = useAuthStore()
+
+    const fetchPlaylist = async () => {
+        try {
+            const res = await api.get(`/playlists/${id}`)
+            setPlaylist(res.data.data)
+        } catch (error) {
+            console.error("Error al cargar playlist", error)
+        }
+    }
+
     useEffect(() => {
-        const fetchPlaylist = async () => {
-            try {
-                const res = await api.get(`/playlists/${id}`);
-                setPlaylist(res.data.data);
-            } catch (error) {
-                console.error("Error al cargar playlist:", error);
-            }
-        };
         fetchPlaylist();
     }, [id]);
+
+
+
+
 
     // --- TRUCO TÉCNICO ---
     // La DB devuelve: playlist.songs = [{ song: { id: 1, title: "X" } }, { song: { id: 2... } }]
@@ -44,6 +53,22 @@ const PlaylistPage = () => {
         const sec = seconds % 60;
         return `${min}:${sec < 10 ? '0' : ''}${sec}`;
     };
+
+    const handleRemoveSong = async (songId) => {
+        // Confirmación simple (opcional)
+        if (!window.confirm("¿Quieres eliminar esta canción de la playlist?")) return;
+
+        try {
+            // DELETE /api/playlists/:playlistId/songs/:songId
+            await api.delete(`/playlists/${id}/songs/${songId}`);
+            
+            // Recargamos la lista para ver los cambios
+            fetchPlaylist(); 
+        } catch (error) {
+            console.error(error);
+            alert("Error al eliminar: " + (error.response?.data?.error || "Error desconocido"));
+        }  
+    }
 
     return (
         <div className="bg-gradient-to-b from-[#1e3264] to-[#121212] min-h-full text-white pb-10">
@@ -84,48 +109,73 @@ const PlaylistPage = () => {
                     </button>
                 </div>
 
-                {/* Tabla */}
-                <div className="flex flex-col">
-                    <div className="grid grid-cols-[16px_4fr_3fr_1fr] px-4 py-2 text-[#b3b3b3] border-b border-white/10 text-sm mb-4">
-                        <span>#</span>
-                        <span>Título</span>
-                        <span>Álbum</span>
-                        <span className="flex justify-end"><FaClock /></span>
-                    </div>
-
-                    {audioSongs.map((song, index) => (
-                        <div 
-                            key={song.id}
-                            onClick={() => playAlbum(audioSongs, index)}
-                            className="grid grid-cols-[16px_4fr_3fr_1fr] px-4 py-3 hover:bg-white/10 rounded-md cursor-pointer group items-center text-[#b3b3b3] hover:text-white transition"
-                        >
-                            <span className="group-hover:hidden">{index + 1}</span>
-                            <span className="hidden group-hover:block text-white"><FaPlay size={10}/></span>
-                            
-                            <div className="flex items-center gap-3">
-                                <img src={song.album?.coverImageUrl} className="w-10 h-10 rounded" />
-                                <div className="flex flex-col">
-                                    <span className="text-white font-medium text-base">{song.title}</span>
-                                    <span className="text-xs group-hover:text-white">{song.album?.artist?.name}</span>
-                                </div>
-                            </div>
-
-                            <span className="text-sm hover:underline">{song.album?.title}</span>
-                            
-                            <span className="flex justify-end font-mono text-sm">
-                                {formatDuration(song.duration)}
-                            </span>
-                        </div>
-                    ))}
-
-                    {audioSongs.length === 0 && (
-                        <div className="text-center text-gray-400 mt-10">
-                            Esta playlist está vacía. ¡Agrega canciones!
-                        </div>
-                    )}
+             {/* Tabla */}
+            <div className="flex flex-col">
+                {/* CABECERA: Ajustamos las columnas agregando 'auto' al final */}
+                <div className="grid grid-cols-[16px_4fr_3fr_1fr_auto] px-4 py-2 text-[#b3b3b3] border-b border-white/10 text-sm mb-4">
+                    <span>#</span>
+                    <span>Título</span>
+                    <span>Álbum</span>
+                    <span></span>
+                    <span className="flex justify-end"><FaClock /></span>
                 </div>
-            </div>
-        </div>
+
+                {audioSongs.map((song, index) => (
+                    <div 
+                        key={song.id}
+                        onClick={() => playAlbum(audioSongs, index)}
+                        // FILA: Ajustamos las columnas igual que el header
+                        className="grid grid-cols-[16px_4fr_3fr_1fr_auto] px-4 py-3 hover:bg-white/10 rounded-md cursor-pointer group items-center text-[#b3b3b3] hover:text-white transition"
+                    >
+                        {/* Columna 1 */}
+           
+                        <span className="group-hover:hidden">{index + 1}</span>
+                        <span className="hidden group-hover:block text-white"><FaPlay size={10}/></span>
+                
+                         {/* Columna  */}
+                        <div className="flex items-center gap-3 overflow-hidden">
+                            <img src={song.album?.coverImageUrl} className="w-10 h-10 rounded object-cover" />
+                            <div className="flex flex-col overflow-hidden">
+                                <span className="text-white font-medium text-base truncate pr-2">{song.title}</span>
+                                <span className="text-xs group-hover:text-white truncate">{song.album?.artist?.name}</span>
+                            </div>
+                        </div>
+
+                        <span className="text-sm hover:underline truncate pr-2">{song.album?.title}</span>
+                        
+                        {/* --- BOTÓN ELIMINAR (SOLO DUEÑO) --- */}
+                        <div className="flex justify-end pr-31">
+                            {/* Verificamos si el usuario actual es el dueño de la playlist */}
+                            {user?.id === playlist.user?.id && (
+                                <button 
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Evita que se reproduzca la canción
+                                        handleRemoveSong(song.id);
+                                    }}
+                                    className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition p-2"
+                                    title="Eliminar de playlist"
+                                >
+                                    <FaTrash size={14} />
+                                </button>
+                            )}
+                        </div>
+
+                        <span className="flex justify-end font-mono text-sm">
+                            {formatDuration(song.duration)}
+                        </span>
+
+
+                    </div>
+                            ))}
+
+                            {audioSongs.length === 0 && (
+                                <div className="text-center text-gray-400 mt-10">
+                                    Esta playlist está vacía. ¡Agrega canciones!
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
     );
 };
 
