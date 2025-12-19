@@ -1,9 +1,9 @@
 Spotify Clone – Full Stack App
 
-Clon funcional de Spotify desarrollado con un stack Full Stack moderno, enfocado en reproducción de música, gestión de canciones y almacenamiento en la nube. El proyecto replica las funcionalidades principales de Spotify, permitiendo subir canciones, almacenarlas en la nube y reproducirlas desde una interfaz web moderna.
+  Clon funcional de Spotify desarrollado con un stack Full Stack moderno, enfocado en reproducción de música, gestión de canciones y almacenamiento en la nube. El proyecto replica las funcionalidades principales de Spotify, permitiendo subir canciones, almacenarlas en la nube y reproducirlas desde una interfaz web moderna.
 
 🚀 Tecnologías utilizadas
-Frontend
+  Frontend
   
   ⚛️ React
   
