@@ -42,7 +42,7 @@ export const useAuthStore = create((set) => ({
 
     register: async(username, email, password) => {
         try {
-            await api.post('/auth/register', {username, email, password})
+            await api.post('api/auth/register', {username, email, password})
 
             // Si no da error, retornamos true.
             // Nota: No hacemos login automático aquí, redirigiremos al usuario para que inicie sesión.
