@@ -7,7 +7,10 @@ import cors from 'cors'
 const app = express()
 
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:[
+      'http://localhost:5173',
+      'https://spotify-kappa-orcin.vercel.app/login'
+    ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -20,7 +23,7 @@ app.use(LoggerMiddleware)
 
 app.use('/api', routes)
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.send('Bienvenido al API de Spotify Clone');
 });
 
