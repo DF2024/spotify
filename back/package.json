@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch index.js",
-    "start": "node index.js"
+    "start": "npx prisma migrate deploy && node index.js"
   },
   "dependencies": {
     "22": "^0.0.0",
