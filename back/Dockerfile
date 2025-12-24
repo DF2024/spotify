@@ -13,6 +13,7 @@ RUN apt-get update -y && apt-get install -y openssl
 RUN npm install --ignore-scripts
 RUN npm install
 RUN npx prisma generate
+RUN npx prisma migrate deploy
 
 # Código
 COPY . .
