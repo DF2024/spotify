@@ -5,44 +5,44 @@ Spotify Clone – Full Stack App
 🚀 Tecnologías utilizadas
   Frontend
   
-  ⚛️ React
-  
-  🎨 CSS / Tailwind 
-  
-  🎧 Reproductor de audio HTML5
+    ⚛️ React
+    
+    🎨 CSS / Tailwind 
+    
+    🎧 Reproductor de audio HTML5
 
   Backend
   
-  🟢 Node.js
-  
-  🚂 Express
-  
-  🔐 JWT (si aplica)
-  
-  📦 Prisma ORM
+    🟢 Node.js
+    
+    🚂 Express
+    
+    🔐 JWT (si aplica)
+    
+    📦 Prisma ORM
 
   Base de datos
   
-  🐘 PostgreSQL
+    🐘 PostgreSQL
   
   Almacenamiento en la nube
   
-  ☁️ Cloudinary
+    ☁️ Cloudinary
 
 Subida y gestión de archivos de audio
 
   Almacenamiento seguro de canciones
   
-  📌 Funcionalidades principales
-  
-  🎶 Subida de canciones a Cloudinary
-  
-  ▶️ Reproducción de música en tiempo real
-  
-  🗂️ Gestión de canciones (crear, listar, eliminar)
-  
-  📄 Persistencia de datos con PostgreSQL
-  
-  🔄 Backend y frontend completamente conectados
-  
-  🧠 ORM Prisma para manejo de base de datos
+    📌 Funcionalidades principales
+    
+    🎶 Subida de canciones a Cloudinary
+    
+    ▶️ Reproducción de música en tiempo real
+    
+    🗂️ Gestión de canciones (crear, listar, eliminar)
+    
+    📄 Persistencia de datos con PostgreSQL
+    
+    🔄 Backend y frontend completamente conectados
+    
+    🧠 ORM Prisma para manejo de base de datos
