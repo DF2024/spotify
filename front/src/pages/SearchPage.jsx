@@ -8,11 +8,10 @@ import AddToPlaylistModal from '../components/UI/AddToPlaylistModal';
 const SearchPage = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState({ songs: [], artists: [], albums: [] });
-    const [songToAdd, setSongToAdd] = useState(null); // Estado para el modal
+    const [songToAdd, setSongToAdd] = useState(null); 
     
     const { setSong } = usePlayerStore();
 
-    // Efecto Debounce: Busca solo cuando dejas de escribir por 300ms
     useEffect(() => {
         const timer = setTimeout(async () => {
             if (query.trim()) {
@@ -45,7 +44,7 @@ const SearchPage = () => {
                 />
             </div>
 
-            {/* Mensaje vacío */}
+
             {!query && (
                 <div className="text-center mt-20">
                     <h2 className="text-2xl font-bold mb-4">Busca canciones, artistas o álbumes</h2>
@@ -53,9 +52,8 @@ const SearchPage = () => {
                 </div>
             )}
 
-            {/* --- RESULTADOS --- */}
-            
-            {/* 1. Canciones */}
+
+
             {results.songs.length > 0 && (
                 <div className="mb-8">
                     <h2 className="text-2xl font-bold mb-4">Canciones</h2>
@@ -65,7 +63,7 @@ const SearchPage = () => {
                                 key={song.id}
                                 className="flex items-center justify-between p-2 hover:bg-white/10 rounded group transition"
                             >
-                                {/* Lado Izquierdo: Play e Info (Click para reproducir) */}
+           
                                 <div 
                                     className="flex items-center gap-3 cursor-pointer flex-1" 
                                     onClick={() => setSong(song)}
@@ -86,12 +84,12 @@ const SearchPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Lado Derecho: Botón Agregar y Duración */}
+    
                                 <div className="flex items-center gap-4">
-                                    {/* Botón AGREGAR A PLAYLIST */}
+
                                     <button 
                                         onClick={(e) => {
-                                            e.stopPropagation(); // Evita el play
+                                            e.stopPropagation(); 
                                             setSongToAdd(song);
                                         }}
                                         className="text-gray-400 hover:text-white opacity-0 group-hover:opacity-100 transition"
@@ -110,7 +108,7 @@ const SearchPage = () => {
                 </div>
             )}
 
-            {/* 2. Artistas */}
+
             {results.artists.length > 0 && (
                 <div className="mb-8">
                     <h2 className="text-2xl font-bold mb-4">Artistas</h2>
@@ -130,7 +128,6 @@ const SearchPage = () => {
                 </div>
             )}
 
-            {/* 3. Álbumes */}
             {results.albums.length > 0 && (
                 <div className="mb-8">
                     <h2 className="text-2xl font-bold mb-4">Álbumes</h2>
@@ -150,14 +147,14 @@ const SearchPage = () => {
                 </div>
             )}
             
-            {/* Sin resultados */}
+
             {query && results.songs.length === 0 && results.artists.length === 0 && results.albums.length === 0 && (
                 <div className="text-center text-gray-400 mt-10">
                     No se encontraron resultados para "{query}"
                 </div>
             )}
 
-            {/* --- MODAL --- */}
+
             {songToAdd && (
                 <AddToPlaylistModal 
                     song={songToAdd} 

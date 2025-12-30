@@ -9,7 +9,7 @@ import { useAuthStore } from '../stores/useAuthStore';
 const PlaylistPage = () => {
     const { id } = useParams();
     const [playlist, setPlaylist] = useState(null);
-    const { playAlbum } = usePlayerStore(); // Reusamos playAlbum para reproducir listas
+    const { playAlbum } = usePlayerStore(); 
 
     const { user } = useAuthStore()
 

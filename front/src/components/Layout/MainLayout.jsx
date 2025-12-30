@@ -9,15 +9,15 @@ const MainLayout = () => {
     return (
         <div className="h-screen flex flex-col bg-black text-white">
             <div className="flex-1 flex overflow-hidden">
-                {/* Sidebar Izquierda */}
+
                 <Sidebar />
                 
-                {/* Contenido Principal (Scrollable) */}
+ 
                 <main className="flex-1 bg-[#121212] rounded-lg m-2 ml-0 overflow-y-auto relative">
-                    {/* Header flotante (Para logout y perfil) */}
+              
                     <header className="absolute top-0 w-full p-4 flex justify-between items-center bg-transparent z-10">
                         <div className="flex gap-2">
-                           {/* Botones de historial < > irían aquí */}
+  
                         </div>
                         <div className="flex items-center gap-4">
                             {user && (
@@ -34,14 +34,14 @@ const MainLayout = () => {
                         </div>
                     </header>
 
-                    {/* Aquí se renderizan las páginas (Home, Search, etc) */}
+      
                     <div className="pt-16 px-6 pb-24">
                         <Outlet />
                     </div>
                 </main>
             </div>
 
-            {/* Player Fijo Abajo */}
+
             <PlayerBar />
         </div>
     );

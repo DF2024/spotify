@@ -5,20 +5,20 @@ import { useNavigate, Link } from 'react-router-dom';
 
 
 const RegisterPage = () => {
-    // Estados locales para el formulario
+
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(''); // Para mostrar mensajes de error en pantalla
+    const [error, setError] = useState('');
 
     const register = useAuthStore((state) => state.register);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Limpiar errores previos
+        setError(''); 
 
-        // Validaciones simples
+
         if (username.length < 3) return setError('El nombre debe tener al menos 3 caracteres');
         if (password.length < 6) return setError('La contraseña debe tener al menos 6 caracteres');
 
@@ -26,7 +26,7 @@ const RegisterPage = () => {
         
         if (success) {
             alert('¡Cuenta creada con éxito! Ahora inicia sesión.');
-            navigate('/login'); // Redirigir al login
+            navigate('/login'); 
         } else {
             setError('Error al registrarse. El email o usuario podría estar en uso.');
         }

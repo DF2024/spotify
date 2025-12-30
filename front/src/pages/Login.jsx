@@ -12,7 +12,7 @@ const LoginPage = () => {
         e.preventDefault();
         const success = await login(email, password);
         if (success) {
-            navigate('/'); // Redirigir al Home si sale bien
+            navigate('/'); 
         } else {
             alert('Error al iniciar sesión');
         }

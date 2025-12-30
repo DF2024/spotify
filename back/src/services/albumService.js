@@ -1,7 +1,7 @@
 import prisma from '../config/db.js';
 
 const albumService = {
-    // Crear Álbum
+    
     createAlbum: async (data) => {
         return await prisma.album.create({
             data: {
@@ -13,7 +13,7 @@ const albumService = {
         });
     },
 
-    // Obtener todos los álbumes
+
     getAllAlbums: async () => {
         return await prisma.album.findMany({
             include: {
@@ -23,14 +23,14 @@ const albumService = {
         });
     },
 
-    // Obtener un álbum por ID (Vista de detalle)
+
     getAlbumById: async (id) => {
         const album = await prisma.album.findUnique({
             where: { id: parseInt(id) },
             include: {
-                artist: true, // Datos del artista
-                songs: {      // Lista de canciones del álbum
-                    orderBy: { trackNumber: 'asc' } // Ordenadas por número de pista
+                artist: true, 
+                songs: {      
+                    orderBy: { trackNumber: 'asc' } 
                 }
             }
         });

@@ -4,10 +4,10 @@ export const usePlayerStore = create((set, get) => ({
     isPlaying: false,
     currentSong: null,
     volume: 50,
-    playlist: [], // Lista de canciones actual (cola de reproducción)
+    playlist: [], 
     currentIndex: 0,
 
-    // Función 1: Reproducir una lista entera (Ej: Álbum o Playlist)
+
     playAlbum: (songs, startIndex = 0) => {
         if(!songs || songs.length === 0) return
 
@@ -19,7 +19,6 @@ export const usePlayerStore = create((set, get) => ({
         })
     },
 
-    // Función 2: Reproducir canción suelta (sin cola)
     setSong: (song) => {
         set({ 
             queue: [song],
@@ -29,12 +28,12 @@ export const usePlayerStore = create((set, get) => ({
         })
     },
     
-      // Función 3: Siguiente Canción
+
     nextSong: () => {
         const { queue, currentIndex } = get();
         const nextIndex = currentIndex + 1;
 
-        // Si hay siguiente canción, avanzamos
+       
         if (nextIndex < queue.length) {
             set({
                 currentSong: queue[nextIndex],
@@ -42,12 +41,12 @@ export const usePlayerStore = create((set, get) => ({
                 isPlaying: true
             });
         } else {
-            // Si llegamos al final, paramos (o podrías poner repeat)
+           
             set({ isPlaying: false });
         }
     },
 
-    // Función 4: Canción Anterior
+
     prevSong: () => {
         const { queue, currentIndex } = get();
         const prevIndex = currentIndex - 1;

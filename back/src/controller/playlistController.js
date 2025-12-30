@@ -3,7 +3,7 @@ import playlistService from '../services/playlistService.js';
 const playlistController = {
     create: async (req, res) => {
         try {
-            const userId = req.user.id; // Viene del token (verifyToken)
+            const userId = req.user.id; 
             const { title, isPublic } = req.body;
 
             if (!title) return res.status(400).json({ error: "El título es obligatorio" });
@@ -45,8 +45,8 @@ const playlistController = {
 
     addSong: async (req, res) => {
         try {
-            const { id: playlistId } = req.params; // ID de la playlist en la URL
-            const { songId } = req.body;           // ID de la canción en el JSON
+            const { id: playlistId } = req.params; 
+            const { songId } = req.body;          
             const userId = req.user.id;
 
             console.log("--- INTENTO DE AGREGAR CANCIÓN ---");
@@ -54,11 +54,11 @@ const playlistController = {
             console.log("Playlist ID:", playlistId);
             console.log("Canción ID:", songId);
 
-            // 1. Seguridad: ¿Eres el dueño de la playlist?
+          
             const isOwner = await playlistService.checkOwnership(playlistId, userId);
             if (!isOwner) return res.status(403).json({ error: "No tienes permiso para editar esta playlist" });
 
-            // 2. Agregar
+
             await playlistService.addSongToPlaylist(playlistId, songId);
             res.json({ success: true, message: "Canción agregada correctamente" });
 

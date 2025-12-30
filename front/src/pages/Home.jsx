@@ -7,7 +7,7 @@ import AddToPlaylistModal from '../components/UI/AddToPlaylistModal';
 
 const HomePage = () => {
     const [songs, setSongs] = useState([]);
-    const { setSong } = usePlayerStore(); // 2. Sacar la función setSong
+    const { setSong } = usePlayerStore(); 
     const [songToAdd, setSongToAdd] = useState(null)
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const HomePage = () => {
                                 alt={song.title} 
                                 className="w-full aspect-square object-cover rounded-md shadow-lg"
                             />
-                            {/* 3. Agregar el evento onClick al botón de Play */}
+  
                             <button 
                                 onClick={() =>{
                                     console.log("1. Click en canción:", song);

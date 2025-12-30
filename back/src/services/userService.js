@@ -70,11 +70,11 @@ const userService = {
     },
 
 
-    // UPDATE 
+    
 
     updateUser : async (userId, updateData) => {
         try {
-            // Verificar si la película existe
+  
             const existingUser = await prisma.user.findUnique({
                 where: { id: Number(userId) }
             })
@@ -83,7 +83,7 @@ const userService = {
                 throw new Error('Usuario no encontrado')
             }
 
-            // Si se intenta cambiar título y año, verificar que no exista otra con los mismos datos
+
             if (updateData.username || updateData.email) {
 
                const duplicateUser = await prisma.user.findFirst({
@@ -101,7 +101,7 @@ const userService = {
                 }
 
             }
-            // Actualizar la película
+
 
             const updateUser = await prisma.user.update({
                 where: { id: Number(userId) },
@@ -115,11 +115,11 @@ const userService = {
         }
     },
 
-    // DELETE 
+
 
     deleteUser : async (userId) => {
         try {
-            // Verificar si la película existe
+
             const existingUser = await prisma.user.findUnique({
                 where: { id: Number(userId) }
             })
@@ -128,7 +128,7 @@ const userService = {
                 throw new Error('Usuario no encontrado')
             }
 
-            // Eliminar la película
+
             await prisma.user.delete({
                 where: { id: Number(userId) }
             })

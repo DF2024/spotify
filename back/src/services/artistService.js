@@ -1,7 +1,7 @@
 import prisma from '../config/db.js';
 
 const artistService = {
-    // Crear Artista
+
     createArtist: async (data) => {
         return await prisma.artist.create({
             data: {
@@ -12,19 +12,19 @@ const artistService = {
         });
     },
 
-    // Obtener todos
+
     getAllArtists: async () => {
         return await prisma.artist.findMany({
-            orderBy: { name: 'asc' } // Orden alfabético
+            orderBy: { name: 'asc' }
         });
     },
 
-    // Obtener uno por ID (con sus álbumes)
+
     getArtistById: async (id) => {
         const artist = await prisma.artist.findUnique({
             where: { id: parseInt(id) },
             include: {
-                albums: true // <--- ¡Importante! Trae los álbumes del artista
+                albums: true
             }
         });
 
@@ -34,8 +34,8 @@ const artistService = {
 
     updateArtist: async (id, data) => {
         return await prisma.artist.update({
-            where: { id: parseInt(id) }, // Aseguramos que el ID sea número
-            data: data // Prisma actualizará solo los campos que vengan aquí
+            where: { id: parseInt(id) },
+            data: data 
         });
     },
 

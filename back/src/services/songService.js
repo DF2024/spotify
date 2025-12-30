@@ -3,11 +3,11 @@ import prisma from '../config/db.js';
 const songService = {
     createSong: async (data) => {
         try {
-            // Data debe incluir: title, albumId, duration, fileUrl, trackNumber
+           
             const newSong = await prisma.song.create({
                 data: {
                     title: data.title,
-                    duration: parseInt(data.duration), // Aseguramos que sea número
+                    duration: parseInt(data.duration), 
                     fileUrl: data.fileUrl,
                     trackNumber: data.trackNumber ? parseInt(data.trackNumber) : null,
                     albumId: parseInt(data.albumId)
@@ -23,20 +23,20 @@ const songService = {
         return await prisma.song.findMany({
             include: {
                 album: {
-                    include: { artist: true } // Traemos también al artista
+                    include: { artist: true }
                 }
             }
         });
     },
     
-    // Método para buscar canciones por álbum (útil para el frontend)
+   
     getSongsByAlbum: async (albumId) => {
         return await prisma.song.findMany({
             where: { albumId: parseInt(albumId) },
             orderBy: { trackNumber: 'asc' }
         });
     },
-    // ... funciones anteriores
+   
     updateSong: async (id, data) => {
         return await prisma.song.update({
             where: { id: parseInt(id) },

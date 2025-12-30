@@ -2,17 +2,16 @@ import { useState, useEffect } from 'react';
 import api from '../api/axios';
 
 const AdminPage = () => {
-    const [activeTab, setActiveTab] = useState('artist'); // artist | album | song
+    const [activeTab, setActiveTab] = useState('artist'); 
     
-    // Datos para llenar los selects
+
     const [artists, setArtists] = useState([]);
     const [albums, setAlbums] = useState([]);
 
-    // Estados de carga
+
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
 
-    // Cargar listas al iniciar
     useEffect(() => {
         fetchData();
     }, []);
@@ -28,7 +27,7 @@ const AdminPage = () => {
         }
     };
 
-    // --- MANEJO DE FORMULARIOS ---
+
 
     const handleArtistSubmit = async (e) => {
         e.preventDefault();
@@ -119,14 +118,13 @@ const AdminPage = () => {
                 </button>
             </div>
 
-            {/* Mensajes de Feedback */}
+
             {message && (
                 <div className={`p-4 mb-6 rounded ${message.includes('✅') ? 'bg-green-900/50 text-green-200' : 'bg-red-900/50 text-red-200'}`}>
                     {message}
                 </div>
             )}
 
-            {/* --- FORMULARIO ARTISTA --- */}
             {activeTab === 'artist' && (
                 <form onSubmit={handleArtistSubmit} className="space-y-4 bg-[#181818] p-6 rounded-lg">
                     <h2 className="text-xl font-bold mb-4">Nuevo Artista</h2>
@@ -142,7 +140,7 @@ const AdminPage = () => {
                 </form>
             )}
 
-            {/* --- FORMULARIO ÁLBUM --- */}
+
             {activeTab === 'album' && (
                 <form onSubmit={handleAlbumSubmit} className="space-y-4 bg-[#181818] p-6 rounded-lg">
                     <h2 className="text-xl font-bold mb-4">Nuevo Álbum</h2>
@@ -166,7 +164,6 @@ const AdminPage = () => {
                 </form>
             )}
 
-            {/* --- FORMULARIO CANCIÓN --- */}
             {activeTab === 'song' && (
                 <form onSubmit={handleSongSubmit} className="space-y-4 bg-[#181818] p-6 rounded-lg">
                     <h2 className="text-xl font-bold mb-4">Subir Canción</h2>

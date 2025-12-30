@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import api from '../api/axios';
 
-// Función segura para leer del localStorage
+
 const getStoredUser = () => {
     try {
         const storedUser = localStorage.getItem('user');
@@ -24,7 +24,7 @@ export const useAuthStore = create((set) => ({
             
             const { token, user } = response.data;
             
-            // Validación: Si el backend no envía user, lanzamos error manual
+    
             if (!user || !token) {
                 throw new Error("Respuesta del servidor incompleta");
             }
@@ -44,8 +44,6 @@ export const useAuthStore = create((set) => ({
         try {
             await api.post('/auth/register', {username, email, password})
 
-            // Si no da error, retornamos true.
-            // Nota: No hacemos login automático aquí, redirigiremos al usuario para que inicie sesión.
             return true
         } catch (error) {
             console.error("Register error:", error.response?.data || error.message)

@@ -1,7 +1,7 @@
 import prisma from '../config/db.js';
 
 const playlistService = {
-    // 1. Crear Playlist
+   
     createPlaylist: async (userId, data) => {
         return await prisma.playlist.create({
             data: {
@@ -13,7 +13,7 @@ const playlistService = {
         });
     },
 
-    // 2. Obtener TODAS las playlists de un usuario específico
+    
     getUserPlaylists: async (userId) => {
         return await prisma.playlist.findMany({
             where: { userId: parseInt(userId) },
@@ -21,19 +21,19 @@ const playlistService = {
         });
     },
 
-    // 3. Obtener UNA playlist con sus canciones
+    
     getPlaylistById: async (id) => {
         const playlist = await prisma.playlist.findUnique({
             where: { id: parseInt(id) },
             include: {
-                user: { // Info del creador
+                user: { 
                     select: { id: true, username: true } 
                 },
-                songs: { // Tabla intermedia (PlaylistSong)
+                songs: { 
                     include: {
-                        song: { // La canción real
+                        song: { 
                             include: {
-                                album: { include: { artist: true } } // Datos extra para el player
+                                album: { include: { artist: true } } 
                             }
                         }
                     },
@@ -46,12 +46,12 @@ const playlistService = {
         return playlist;
     },
 
-    // 4. Agregar canción a la playlist
+
     addSongToPlaylist: async (playlistId, songId) => {
-        // Verificamos si ya existe para evitar errores
+       
         const exists = await prisma.playlistSong.findUnique({
             where: {
-                playlistId_songId: { // Clave compuesta definida en schema.prisma
+                playlistId_songId: { 
                     playlistId: parseInt(playlistId),
                     songId: parseInt(songId)
                 }
@@ -68,7 +68,7 @@ const playlistService = {
         });
     },
 
-    // 5. Eliminar canción de la playlist
+
     removeSongFromPlaylist: async (playlistId, songId) => {
         return await prisma.playlistSong.delete({
             where: {
@@ -86,7 +86,7 @@ const playlistService = {
         });
         if (!playlist) throw new Error('Playlist no encontrada');
         
-        // Compara el ID del dueño con el ID del usuario actual
+        
         return playlist.userId === parseInt(userId);
     }
 };

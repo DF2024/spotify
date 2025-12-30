@@ -5,13 +5,11 @@ import { verifyToken, verifyAdmin } from '../middlewares/auth.js';
 
 const router = Router();
 
-// --- RUTAS PÚBLICAS (Solo requieren Login) ---
+
 router.get('/', verifyToken, artistController.getAll);
 router.get('/:id', verifyToken, artistController.getOne);
 
-// --- RUTAS ADMIN (Requieren ser Admin) ---
 
-// Usamos 'image' como el nombre del campo del formulario para la foto
 router.post('/', 
     verifyToken, 
     verifyAdmin,
@@ -21,7 +19,7 @@ router.post('/',
 router.put('/:id', 
     verifyToken, 
     verifyAdmin, 
-    uploadCloudinary.single('image'), // Permite recibir una nueva foto
+    uploadCloudinary.single('image'), 
     artistController.update
 );
 

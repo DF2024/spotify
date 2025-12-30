@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 
-// Evita crear múltiples instancias de Prisma al recargar en desarrollo (Nodemon)
 const globalForPrisma = global;
 
 const prisma = globalForPrisma.prisma || new PrismaClient();

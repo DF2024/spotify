@@ -3,18 +3,18 @@ import albumService from '../services/albumService.js';
 const albumController = {
     createAlbum: async (req, res) => {
         try {
-            // Extraer datos del body
+
             const { title, releaseYear, artistId } = req.body;
 
-            // Validaciones básicas
+
             if (!title || !artistId) {
                 return res.status(400).json({ error: "El título y el ID del artista son obligatorios" });
             }
 
-            // Manejo de la imagen de portada
+
             let coverImageUrl = null;
             if (req.file) {
-                coverImageUrl = req.file.path; // URL de Cloudinary
+                coverImageUrl = req.file.path; 
             }
 
             const newAlbum = await albumService.createAlbum({
@@ -31,7 +31,7 @@ const albumController = {
             });
 
         } catch (error) {
-            // Si el error es por llave foránea (artista no existe)
+
             if (error.code === 'P2003') { 
                 return res.status(400).json({ error: "El ID del artista no es válido" });
             }
