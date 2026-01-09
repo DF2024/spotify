@@ -52,7 +52,7 @@ const RegisterPage = () => {
                 )}
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    {/* Campo Usuario */}
+
                     <div className="flex flex-col gap-1">
                         <label className="font-bold text-sm">Nombre de usuario</label>
                         <input 
@@ -65,7 +65,7 @@ const RegisterPage = () => {
                         />
                     </div>
 
-                    {/* Campo Email */}
+
                     <div className="flex flex-col gap-1">
                         <label className="font-bold text-sm">Correo electrónico</label>
                         <input 
@@ -78,7 +78,7 @@ const RegisterPage = () => {
                         />
                     </div>
 
-                    {/* Campo Password */}
+
                     <div className="flex flex-col gap-1">
                         <label className="font-bold text-sm">Contraseña</label>
                         <input 

@@ -42,8 +42,8 @@ const AlbumPage = () => {
 
     return (
         <div className="bg-gradient-to-b from-[#5038a0] to-[#121212] min-h-full text-white pb-10">
-            {/* Header del Álbum */}
-            <div className="flex flex-col md:flex-row items-end gap-6 p-8">
+
+            <div className="flex flex-col md:flex-row items-center gap-6 p-8">
                 <img 
                     src={album.coverImageUrl || "https://via.placeholder.com/200"} 
                     alt={album.title} 

@@ -31,7 +31,6 @@ const SearchPage = () => {
 
     return (
         <div className="p-6 text-white pb-20">
-            {/* Barra de Búsqueda */}
             <div className="relative mb-8 max-w-md">
                 <FaSearch className="absolute left-4 top-3.5 text-black z-10" />
                 <input 

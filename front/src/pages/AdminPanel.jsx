@@ -40,11 +40,11 @@ const AdminPage = () => {
                     "Content-Type": "multipart/form-data",
                 }
             });
-            setMessage('✅ Artista creado correctamente');
+            setMessage('Artista creado correctamente');
             e.target.reset();
-            fetchData(); // Recargar listas
+            fetchData(); 
         } catch (error) {
-            setMessage('❌ Error: ' + (error.response?.data?.error || error.message));
+            setMessage('Error: ' + (error.response?.data?.error || error.message));
             console.error(error)
         } finally {
             setLoading(false);
@@ -62,11 +62,11 @@ const AdminPage = () => {
                     "Content-Type": "multipart/form-data",
                 }
             });
-            setMessage('✅ Álbum creado correctamente');
+            setMessage('Álbum creado correctamente');
             e.target.reset();
             fetchData();
         } catch (error) {
-            setMessage('❌ Error: ' + (error.response?.data?.error || error.message));
+            setMessage('Error: ' + (error.response?.data?.error || error.message));
         } finally {
             setLoading(false);
         }
@@ -83,10 +83,10 @@ const AdminPage = () => {
                     "Content-Type": "multipart/form-data",
                 }
             });
-            setMessage('✅ Canción subida correctamente');
+            setMessage('Canción subida correctamente');
             e.target.reset();
         } catch (error) {
-            setMessage('❌ Error: ' + (error.response?.data?.error || error.message));
+            setMessage('Error: ' + (error.response?.data?.error || error.message));
         } finally {
             setLoading(false);
         }
@@ -96,7 +96,6 @@ const AdminPage = () => {
         <div className="p-8 max-w-4xl mx-auto text-white">
             <h1 className="text-3xl font-bold mb-6">Panel de Administración</h1>
 
-            {/* Pestañas */}
             <div className="flex gap-4 mb-8 border-b border-gray-700 pb-4">
                 <button 
                     onClick={() => { setActiveTab('artist'); setMessage(''); }}

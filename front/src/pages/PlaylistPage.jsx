@@ -26,14 +26,6 @@ const PlaylistPage = () => {
         fetchPlaylist();
     }, [id]);
 
-
-
-
-
-    // --- TRUCO TÉCNICO ---
-    // La DB devuelve: playlist.songs = [{ song: { id: 1, title: "X" } }, { song: { id: 2... } }]
-    // El Player necesita: [ { id: 1, title: "X" }, { id: 2... } ]
-    // Usamos useMemo para "aplanar" el array y no recalcularlo en cada render.
     const audioSongs = useMemo(() => {
         if (!playlist?.songs) return [];
         return playlist.songs.map(item => item.song);
@@ -47,7 +39,7 @@ const PlaylistPage = () => {
         }
     };
 
-    // Helper formato tiempo
+
     const formatDuration = (seconds) => {
         const min = Math.floor(seconds / 60);
         const sec = seconds % 60;
@@ -55,14 +47,13 @@ const PlaylistPage = () => {
     };
 
     const handleRemoveSong = async (songId) => {
-        // Confirmación simple (opcional)
+
         if (!window.confirm("¿Quieres eliminar esta canción de la playlist?")) return;
 
         try {
-            // DELETE /api/playlists/:playlistId/songs/:songId
+
             await api.delete(`/playlists/${id}/songs/${songId}`);
             
-            // Recargamos la lista para ver los cambios
             fetchPlaylist(); 
         } catch (error) {
             console.error(error);
@@ -72,9 +63,9 @@ const PlaylistPage = () => {
 
     return (
         <div className="bg-gradient-to-b from-[#1e3264] to-[#121212] min-h-full text-white pb-10">
-            {/* Header */}
-            <div className="flex items-end gap-6 p-8">
-                {/* Imagen de portada o Placeholder */}
+
+            <div className="flex flex-col md:flex-row items-center gap-6 p-8">
+  
                 {playlist.coverImageUrl ? (
                     <img 
                         src={playlist.coverImageUrl} 
@@ -97,9 +88,9 @@ const PlaylistPage = () => {
                 </div>
             </div>
 
-            {/* Controles y Lista */}
+
             <div className="bg-black/20 p-6 backdrop-blur-md min-h-[500px]">
-                {/* Botón Play Grande */}
+
                 <div className="mb-6">
                     <button 
                         onClick={handlePlayPlaylist}
@@ -109,9 +100,9 @@ const PlaylistPage = () => {
                     </button>
                 </div>
 
-             {/* Tabla */}
+
             <div className="flex flex-col">
-                {/* CABECERA: Ajustamos las columnas agregando 'auto' al final */}
+
                 <div className="grid grid-cols-[16px_4fr_3fr_1fr_auto] px-4 py-2 text-[#b3b3b3] border-b border-white/10 text-sm mb-4">
                     <span>#</span>
                     <span>Título</span>
@@ -124,15 +115,15 @@ const PlaylistPage = () => {
                     <div 
                         key={song.id}
                         onClick={() => playAlbum(audioSongs, index)}
-                        // FILA: Ajustamos las columnas igual que el header
+
                         className="grid grid-cols-[16px_4fr_3fr_1fr_auto] px-4 py-3 hover:bg-white/10 rounded-md cursor-pointer group items-center text-[#b3b3b3] hover:text-white transition"
                     >
-                        {/* Columna 1 */}
+
            
                         <span className="group-hover:hidden">{index + 1}</span>
                         <span className="hidden group-hover:block text-white"><FaPlay size={10}/></span>
                 
-                         {/* Columna  */}
+
                         <div className="flex items-center gap-3 overflow-hidden">
                             <img src={song.album?.coverImageUrl} className="w-10 h-10 rounded object-cover" />
                             <div className="flex flex-col overflow-hidden">
@@ -143,13 +134,13 @@ const PlaylistPage = () => {
 
                         <span className="text-sm hover:underline truncate pr-2">{song.album?.title}</span>
                         
-                        {/* --- BOTÓN ELIMINAR (SOLO DUEÑO) --- */}
+
                         <div className="flex justify-end pr-31">
-                            {/* Verificamos si el usuario actual es el dueño de la playlist */}
+
                             {user?.id === playlist.user?.id && (
                                 <button 
                                     onClick={(e) => {
-                                        e.stopPropagation(); // Evita que se reproduzca la canción
+                                        e.stopPropagation(); 
                                         handleRemoveSong(song.id);
                                     }}
                                     className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition p-2"
